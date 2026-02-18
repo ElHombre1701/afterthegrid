@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KIDDs Electronics — Technician Access Portal</title>
+<style>
+:root {
+  --bg-dark: #0f1110;
+  --bg-panel: #111311;
+  --text-main: #e6e6e6;
+  --accent: #4f6b4f;
+  --phosphor: #ff7a00;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: var(--bg-dark);
+  color: var(--text-main);
+  font-family: 'Cormorant Garamond', serif;
+  min-height: 100vh;
+}
+
+.portal-container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 20px;
+}
+
+.portal-seal {
+  width: 100px;
+  margin-bottom: 40px;
+  opacity: 0.8;
+}
+
+.portal-header {
+  font-family: 'Courier New', monospace;
+  letter-spacing: 4px;
+  color: var(--accent);
+  margin-bottom: 50px;
+  font-size: 18px;
+}
+
+.portal-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+  max-width: 300px;
+}
+
+.portal-form input {
+  background: var(--bg-panel);
+  border: 1px solid var(--accent);
+  color: var(--text-main);
+  padding: 12px 16px;
+  font-family: 'Cormorant Garamond', serif;
+  letter-spacing: 1px;
+  font-size: 16px;
+}
+
+.portal-form input::placeholder {
+  color: #666;
+}
+
+.portal-form button {
+  padding: 12px 24px;
+  background: transparent;
+  border: 1px solid var(--accent);
+  color: var(--phosphor);
+  cursor: pointer;
+  letter-spacing: 3px;
+  font-family: 'Courier New', monospace;
+  font-size: 13px;
+  transition: all 0.2s ease;
+}
+
+.portal-form button:hover {
+  background: var(--accent);
+  color: var(--bg-dark);
+}
+
+.portal-form button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.portal-meta {
+  margin-top: 40px;
+  font-size: 11px;
+  color: #555;
+  letter-spacing: 2px;
+}
+
+.status-message {
+  margin-top: 20px;
+  font-size: 13px;
+  color: var(--phosphor);
+  min-height: 20px;
+}
+
+.status-message.error {
+  color: #ff4444;
+}
+
+.status-message.success {
+  color: var(--accent);
+}
+</style>
+</head>
+<body>
+
+<section class="portal-container">
+
+  <svg class="portal-seal" viewBox="0 0 3000 3000" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <style>
+        .seal-outer { fill: none; stroke: #4F6B4F; stroke-width: 60; }
+        .seal-inner { fill: none; stroke: #4F6B4F; stroke-width: 20; }
+        .seal-text { font-family: "Playfair Display", serif; fill: #4F6B4F; }
+        .seal-mono { font-family: "Courier New", monospace; fill: #4F6B4F; }
+      </style>
+    </defs>
+
+    <circle cx="1500" cy="1500" r="1400" class="seal-outer"/>
+    <circle cx="1500" cy="1500" r="1200" class="seal-inner"/>
+
+    <path id="topArc" d="M 300 1500 A 1200 1200 0 0 1 2700 1500" fill="none"/>
+    <text font-size="180" letter-spacing="15" class="seal-text">
+      <textPath href="#topArc" startOffset="50%" text-anchor="middle">
+        KIDDs ELECTRONICS
+      </textPath>
+    </text>
+
+    <path id="bottomArc" d="M 2700 1500 A 1200 1200 0 0 1 300 1500" fill="none"/>
+    <text font-size="120" letter-spacing="10" class="seal-text">
+      <textPath href="#bottomArc" startOffset="50%" text-anchor="middle">
+        EST. 1971 • AUTHORIZED
+      </textPath>
+    </text>
+
+    <g transform="translate(1500,1500)">
+      <circle r="350" fill="none" stroke="#4F6B4F" stroke-width="25"/>
+      <g stroke="#4F6B4F" stroke-width="15">
+        <line x1="0" y1="-350" x2="0" y2="-150"/>
+        <line x1="350" y1="0" x2="150" y2="0"/>
+        <line x1="0" y1="350" x2="0" y2="150"/>
+        <line x1="-350" y1="0" x2="-150" y2="0"/>
+      </g>
+      <circle r="60" fill="#4F6B4F"/>
+    </g>
+  </svg>
+
+  <div class="portal-header">
+    TECHNICIAN ACCESS NODE
+  </div>
+
+  <form id="loginForm" class="portal-form">
+    <input 
+      type="email" 
+      id="email" 
+      placeholder="Technician ID" 
+      required
+      autocomplete="email"
+    >
+    <button type="submit" id="submitBtn">Authenticate</button>
+  </form>
+
+  <div class="status-message" id="statusMessage"></div>
+
+  <div class="portal-meta">
+    Authorized Personnel Only — Est. 1971
+  </div>
+
+</section>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+const SUPABASE_URL = "https://zahhstepmwnpktmvcfmb.supabase.co";
+const SUPABASE_ANON_KEY = "sb_publishable_DCnnjf4vbvsXicM8RsR1Jw_-0i9m5Oh";
+
+const { createClient } = window.supabase;
+const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+const form = document.getElementById("loginForm");
+const emailInput = document.getElementById("email");
+const submitBtn = document.getElementById("submitBtn");
+const statusMessage = document.getElementById("statusMessage");
+
+form.addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const email = emailInput.value.trim();
+
+  if (!email) {
+    showMessage("Email required", "error");
+    return;
+  }
+
+  submitBtn.disabled = true;
+  submitBtn.textContent = "Authenticating...";
+  statusMessage.textContent = "";
+
+  try {
+    // Determine access level
+    let accessLevel = 1;
+
+    if (email.toLowerCase().includes("1971") || 
+        email.toLowerCase().includes("kidds") ||
+        email.toLowerCase().includes("phatti")) {
+      accessLevel = 2;
+    }
+
+    // Insert into Supabase
+    const { data, error } = await supabase
+      .from("technicians")
+      .insert([
+        {
+          email: email,
+          access_level: accessLevel
+        }
+      ])
+      .select();
+
+    if (error) {
+      // If email already exists, just log them in
+      if (error.code === "23505") {
+        showMessage("Technician ID recognized", "success");
+        completeLogin(email, accessLevel);
+      } else {
+        throw error;
+      }
+    } else {
+      showMessage("Registration confirmed", "success");
+      completeLogin(email, accessLevel);
+    }
+  } catch (error) {
+    console.error("Auth error:", error);
+    showMessage("Authentication failed. Try again.", "error");
+    submitBtn.disabled = false;
+    submitBtn.textContent = "Authenticate";
+  }
+});
+
+function showMessage(text, type) {
+  statusMessage.textContent = text;
+  statusMessage.className = `status-message ${type}`;
+}
+
+function completeLogin(email, accessLevel) {
+  localStorage.setItem("technicianID", email);
+  localStorage.setItem("accessLevel", accessLevel);
+  
+  // Redirect after brief delay
+  setTimeout(() => {
+    window.location.href = "/dashboard.html";
+  }, 800);
+}
+</script>
+
+</body>
+</html>

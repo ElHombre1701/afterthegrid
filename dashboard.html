@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Technician Dashboard — KIDDs Electronics</title>
+<style>
+:root {
+  --bg-dark: #0f1110;
+  --bg-panel: #111311;
+  --text-main: #e6e6e6;
+  --accent: #4f6b4f;
+  --phosphor: #ff7a00;
+  --border-subtle: #2a2f2a;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: var(--bg-dark);
+  color: var(--text-main);
+  font-family: 'Cormorant Garamond', serif;
+}
+
+.dashboard {
+  text-align: center;
+  padding: 80px 20px;
+}
+
+.dashboard-header {
+  margin-bottom: 60px;
+}
+
+.portal-seal {
+  width: 90px;
+  margin-bottom: 30px;
+  opacity: 0.8;
+}
+
+.dashboard h1 {
+  font-family: 'Playfair Display', serif;
+  letter-spacing: 3px;
+  margin-bottom: 10px;
+}
+
+.tech-id {
+  font-family: 'Courier New', monospace;
+  font-size: 13px;
+  letter-spacing: 2px;
+  color: var(--accent);
+  margin-bottom: 20px;
+}
+
+.access-level-badge {
+  display: inline-block;
+  padding: 6px 12px;
+  border: 1px solid var(--phosphor);
+  color: var(--phosphor);
+  font-size: 11px;
+  letter-spacing: 2px;
+  margin-bottom: 30px;
+}
+
+.dashboard-grid {
+  margin-top: 60px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 40px;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.node {
+  border: 1px solid var(--border-subtle);
+  padding: 30px;
+  background: var(--bg-panel);
+  transition: all 0.2s ease;
+}
+
+.node:hover {
+  border-color: var(--accent);
+  background: #141917;
+}
+
+.node h3 {
+  font-family: 'Playfair Display', serif;
+  letter-spacing: 2px;
+  margin-bottom: 15px;
+  font-size: 18px;
+}
+
+.node a {
+  color: var(--phosphor);
+  text-decoration: none;
+  letter-spacing: 2px;
+  font-family: 'Courier New', monospace;
+  font-size: 13px;
+  transition: color 0.2s ease;
+}
+
+.node a:hover {
+  color: var(--accent);
+}
+
+.node.restricted {
+  opacity: 0.5;
+}
+
+.node.restricted a {
+  cursor: not-allowed;
+  color: #666;
+}
+
+.node.restricted a:hover {
+  color: #666;
+}
+
+.restriction-notice {
+  font-family: 'Courier New', monospace;
+  font-size: 11px;
+  color: #777;
+  margin-top: 10px;
+}
+
+.logout-section {
+  margin-top: 80px;
+  padding-top: 40px;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.logout-btn {
+  padding: 8px 16px;
+  background: transparent;
+  border: 1px solid var(--accent);
+  color: var(--accent);
+  cursor: pointer;
+  letter-spacing: 2px;
+  font-family: 'Courier New', monospace;
+  font-size: 12px;
+  transition: all 0.2s ease;
+}
+
+.logout-btn:hover {
+  background: var(--accent);
+  color: var(--bg-dark);
+}
+</style>
+</head>
+<body>
+
+<section class="dashboard">
+
+  <div class="dashboard-header">
+    <svg class="portal-seal" viewBox="0 0 3000 3000" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <style>
+          .seal-outer { fill: none; stroke: #4F6B4F; stroke-width: 60; }
+          .seal-inner { fill: none; stroke: #4F6B4F; stroke-width: 20; }
+          .seal-text { font-family: "Playfair Display", serif; fill: #4F6B4F; }
+        </style>
+      </defs>
+
+      <circle cx="1500" cy="1500" r="1400" class="seal-outer"/>
+      <circle cx="1500" cy="1500" r="1200" class="seal-inner"/>
+
+      <path id="topArc" d="M 300 1500 A 1200 1200 0 0 1 2700 1500" fill="none"/>
+      <text font-size="180" letter-spacing="15" class="seal-text">
+        <textPath href="#topArc" startOffset="50%" text-anchor="middle">
+          KIDDs ELECTRONICS
+        </textPath>
+      </text>
+
+      <g transform="translate(1500,1500)">
+        <circle r="350" fill="none" stroke="#4F6B4F" stroke-width="25"/>
+        <g stroke="#4F6B4F" stroke-width="15">
+          <line x1="0" y1="-350" x2="0" y2="-150"/>
+          <line x1="350" y1="0" x2="150" y2="0"/>
+          <line x1="0" y1="350" x2="0" y2="150"/>
+          <line x1="-350" y1="0" x2="-150" y2="0"/>
+        </g>
+        <circle r="60" fill="#4F6B4F"/>
+      </g>
+    </svg>
+
+    <h1>Signal Technician Dashboard</h1>
+    <div class="tech-id" id="technicianID"></div>
+    <div class="access-level-badge" id="accessBadge"></div>
+  </div>
+
+  <div class="dashboard-grid">
+
+    <!-- Archive Access (Level 1+) -->
+    <div class="node">
+      <h3>Archive Access</h3>
+      <a href="/read/book-1/">Enter Transmission</a>
+    </div>
+
+    <!-- Calibration Logs (Level 1+) -->
+    <div class="node">
+      <h3>Calibration Logs</h3>
+      <a href="/signal/">View Archive</a>
+    </div>
+
+    <!-- Restricted Node (Level 2 only) -->
+    <div class="node" id="restrictedNode">
+      <h3>Restricted Node</h3>
+      <a href="#" onclick="checkAccess(event)">Access Classified</a>
+      <div class="restriction-notice" id="restrictionNotice"></div>
+    </div>
+
+  </div>
+
+  <div class="logout-section">
+    <button class="logout-btn" onclick="logout()">Sign Out</button>
+  </div>
+
+</section>
+
+<script>
+// Check if user is authenticated
+function checkAuth() {
+  const techID = localStorage.getItem("technicianID");
+  const accessLevel = localStorage.getItem("accessLevel");
+
+  if (!techID) {
+    window.location.href = "/portal.html";
+    return;
+  }
+
+  // Display technician info
+  document.getElementById("technicianID").textContent = 
+    "TECHNICIAN ID: " + techID;
+
+  const level = parseInt(accessLevel) || 1;
+  document.getElementById("accessBadge").textContent = 
+    "ACCESS LEVEL " + level;
+
+  // Handle restricted node
+  const restrictedNode = document.getElementById("restrictedNode");
+  const restrictionNotice = document.getElementById("restrictionNotice");
+
+  if (level < 2) {
+    restrictedNode.classList.add("restricted");
+    restrictionNotice.textContent = "Insufficient Clearance";
+  } else {
+    restrictionNotice.textContent = "Level 2 Authorized";
+  }
+}
+
+// Check access on click
+function checkAccess(e) {
+  e.preventDefault();
+  const level = parseInt(localStorage.getItem("accessLevel")) || 1;
+
+  if (level >= 2) {
+    window.location.href = "/restricted.html";
+  } else {
+    alert("Insufficient clearance level.");
+  }
+}
+
+// Logout function
+function logout() {
+  localStorage.removeItem("technicianID");
+  localStorage.removeItem("accessLevel");
+  window.location.href = "/portal.html";
+}
+
+// Run auth check on load
+checkAuth();
+</script>
+
+</body>
+</html>

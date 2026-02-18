@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Restricted Node — KIDDs Electronics</title>
+<style>
+:root {
+  --bg-dark: #0f1110;
+  --bg-panel: #111311;
+  --text-main: #e6e6e6;
+  --accent: #4f6b4f;
+  --phosphor: #ff7a00;
+  --border-subtle: #2a2f2a;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: var(--bg-dark);
+  color: var(--text-main);
+  font-family: 'Cormorant Garamond', serif;
+}
+
+.restricted-container {
+  text-align: center;
+  padding: 120px 20px;
+}
+
+.portal-seal {
+  width: 100px;
+  margin-bottom: 40px;
+  opacity: 0.7;
+}
+
+.restricted-container h1 {
+  font-family: 'Playfair Display', serif;
+  letter-spacing: 3px;
+  margin-bottom: 30px;
+}
+
+.access-message {
+  font-family: 'Courier New', monospace;
+  font-size: 14px;
+  letter-spacing: 2px;
+  margin-bottom: 40px;
+  min-height: 30px;
+}
+
+.access-message.granted {
+  color: var(--accent);
+}
+
+.access-message.denied {
+  color: #ff4444;
+}
+
+.content-area {
+  max-width: 700px;
+  margin: 40px auto;
+  border: 1px solid var(--border-subtle);
+  padding: 40px;
+  background: var(--bg-panel);
+  display: none;
+}
+
+.content-area.visible {
+  display: block;
+}
+
+.anomaly {
+  color: var(--phosphor);
+  font-style: italic;
+}
+
+.nav-links {
+  margin-top: 60px;
+}
+
+.nav-links a {
+  display: inline-block;
+  margin: 0 15px;
+  color: var(--phosphor);
+  text-decoration: none;
+  letter-spacing: 2px;
+  font-family: 'Courier New', monospace;
+  font-size: 12px;
+}
+
+.nav-links a:hover {
+  color: var(--accent);
+}
+</style>
+</head>
+<body>
+
+<section class="restricted-container">
+
+  <svg class="portal-seal" viewBox="0 0 3000 3000" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <style>
+        .seal-outer { fill: none; stroke: #4F6B4F; stroke-width: 60; }
+        .seal-inner { fill: none; stroke: #4F6B4F; stroke-width: 20; }
+        .seal-text { font-family: "Playfair Display", serif; fill: #4F6B4F; }
+      </style>
+    </defs>
+
+    <circle cx="1500" cy="1500" r="1400" class="seal-outer"/>
+    <circle cx="1500" cy="1500" r="1200" class="seal-inner"/>
+
+    <path id="topArc" d="M 300 1500 A 1200 1200 0 0 1 2700 1500" fill="none"/>
+    <text font-size="180" letter-spacing="15" class="seal-text">
+      <textPath href="#topArc" startOffset="50%" text-anchor="middle">
+        KIDDs ELECTRONICS
+      </textPath>
+    </text>
+
+    <g transform="translate(1500,1500)">
+      <circle r="350" fill="none" stroke="#4F6B4F" stroke-width="25"/>
+      <circle r="60" fill="#4F6B4F"/>
+    </g>
+  </svg>
+
+  <h1>RESTRICTED NODE</h1>
+
+  <div class="access-message" id="accessMessage"></div>
+
+  <div class="content-area" id="restrictedContent">
+    <p>[ARCHIVAL VARIANCE DETECTED]</p>
+    <p style="margin-top: 20px;">
+      Signal stability compromised at coordinates unknown.
+    </p>
+    <p style="margin-top: 15px;">
+      The <span class="anomaly">girl</span> continues to perceive what others cannot.
+    </p>
+    <p style="margin-top: 15px;">
+      Technician review authorized. Proceed with discretion.
+    </p>
+  </div>
+
+  <div class="nav-links">
+    <a href="/dashboard.html">Return to Dashboard</a>
+    <a href="/">Home</a>
+  </div>
+
+</section>
+
+<script>
+function checkAccess() {
+  const techID = localStorage.getItem("technicianID");
+  const level = parseInt(localStorage.getItem("accessLevel")) || 1;
+
+  if (!techID) {
+    window.location.href = "/portal.html";
+    return;
+  }
+
+  const messageEl = document.getElementById("accessMessage");
+  const contentEl = document.getElementById("restrictedContent");
+
+  if (level >= 2) {
+    messageEl.textContent = "Access Level 2 Confirmed";
+    messageEl.className = "access-message granted";
+    contentEl.classList.add("visible");
+  } else {
+    messageEl.textContent = "Insufficient Clearance";
+    messageEl.className = "access-message denied";
+  }
+}
+
+checkAccess();
+</script>
+
+</body>
+</html>
