@@ -127,7 +127,6 @@ body {
         .seal-outer { fill: none; stroke: #4F6B4F; stroke-width: 60; }
         .seal-inner { fill: none; stroke: #4F6B4F; stroke-width: 20; }
         .seal-text { font-family: "Playfair Display", serif; fill: #4F6B4F; }
-        .seal-mono { font-family: "Courier New", monospace; fill: #4F6B4F; }
       </style>
     </defs>
 
@@ -189,8 +188,14 @@ body {
 const SUPABASE_URL = "https://zahhstepmwnpktmvcfmb.supabase.co";
 const SUPABASE_ANON_KEY = "sb_publishable_DCnnjf4vbvsXicM8RsR1Jw_-0i9m5Oh";
 
-const { createClient } = window.supabase;
-const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+let supabaseClient;
+
+try {
+  const { createClient } = window.supabase;
+  supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+} catch (error) {
+  console.error("Supabase initialization error:", error);
+}
 
 const form = document.getElementById("loginForm");
 const emailInput = document.getElementById("email");
@@ -212,7 +217,6 @@ form.addEventListener("submit", async (e) => {
   statusMessage.textContent = "";
 
   try {
-    // Determine access level
     let accessLevel = 1;
 
     if (email.toLowerCase().includes("1971") || 
@@ -221,8 +225,7 @@ form.addEventListener("submit", async (e) => {
       accessLevel = 2;
     }
 
-    // Insert into Supabase
-    const { data, error } = await supabase
+    const { data, error } = await supabaseClient
       .from("technicians")
       .insert([
         {
@@ -233,7 +236,6 @@ form.addEventListener("submit", async (e) => {
       .select();
 
     if (error) {
-      // If email already exists, just log them in
       if (error.code === "23505") {
         showMessage("Technician ID recognized", "success");
         completeLogin(email, accessLevel);
@@ -261,7 +263,6 @@ function completeLogin(email, accessLevel) {
   localStorage.setItem("technicianID", email);
   localStorage.setItem("accessLevel", accessLevel);
   
-  // Redirect after brief delay
   setTimeout(() => {
     window.location.href = "/dashboard.html";
   }, 800);
