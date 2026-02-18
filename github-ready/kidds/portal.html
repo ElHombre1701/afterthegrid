@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KIDDs Electronics — Technician Portal</title>
+  <link rel="stylesheet" href="/styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Playfair+Display:wght@500;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+
+<section class="portal-container">
+
+  <img src="/assets/brand/kidds-seal.svg" class="portal-seal" alt="KIDDs Electronics Seal">
+
+  <div class="portal-header">
+    TECHNICIAN ACCESS NODE
+  </div>
+
+  <form id="loginForm" class="portal-form">
+    <input 
+      type="email" 
+      id="email" 
+      placeholder="Technician ID" 
+      required
+    >
+    <button type="submit">Authenticate</button>
+  </form>
+
+  <div id="statusMessage"></div>
+
+  <div class="portal-meta">
+    Authorized Personnel Only — Est. 1971
+  </div>
+
+</section>
+
+<script>
+// Initialize Supabase
+const SUPABASE_URL = "YOUR_SUPABASE_URL";
+const SUPABASE_KEY = "YOUR_ANON_PUBLIC_KEY";
+
+const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+document.getElementById("loginForm").addEventListener("submit", async function(e) {
+  e.preventDefault();
+  
+  const email = document.getElementById("email").value;
+  const statusDiv = document.getElementById("statusMessage");
+
+  // Determine access level based on email
+  let accessLevel = 1;
+  if (email.includes("1971") || email.includes("kidds") || email.includes("phatti")) {
+    accessLevel = 2;
+  }
+
+  try {
+    // Insert or update technician record
+    const { data, error } = await supabase
+      .from("technicians")
+      .insert([
+        {
+          email: email,
+          access_level: accessLevel
+        }
+      ])
+      .select();
+
+    if (error) {
+      // Email already exists, just log them in
+      if (error.code === "23505") {
+        // Fetch existing record
+        const { data: existing } = await supabase
+          .from("technicians")
+          .select("access_level")
+          .eq("email", email)
+          .single();
+
+        if (existing) {
+          accessLevel = existing.access_level;
+        }
+      } else {
+        throw error;
+      }
+    }
+
+    // Store locally
+    localStorage.setItem("technicianID", email);
+    localStorage.setItem("accessLevel", accessLevel);
+
+    // Redirect
+    statusDiv.innerHTML = '<p class="success-message">Authentication successful.</p>';
+    setTimeout(() => {
+      window.location.href = "/kidds/dashboard.html";
+    }, 500);
+
+  } catch (error) {
+    statusDiv.innerHTML = `<p class="error-message">Error: ${error.message}</p>`;
+  }
+});
+</script>
+
+</body>
+</html>

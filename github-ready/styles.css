@@ -1,0 +1,423 @@
+:root {
+  --bg-dark: #0f1110;
+  --bg-panel: #161916;
+  --text-main: #e6e6e6;
+  --accent: #4f6b4f;
+  --phosphor: #ff7a00;
+  --border-subtle: #2a2f2a;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg-dark);
+  color: var(--text-main);
+  font-family: 'Cormorant Garamond', serif;
+  line-height: 1.7;
+}
+
+/* ============ GLOBAL HEADER ============ */
+
+.site-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 40px;
+  background: var(--bg-panel);
+  border-bottom: 1px solid var(--border-subtle);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.brand-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.seal {
+  width: 60px;
+  height: auto;
+}
+
+.brand-title {
+  font-family: 'Playfair Display', serif;
+  color: var(--accent);
+  font-size: 18px;
+  letter-spacing: 2px;
+}
+
+.brand-sub {
+  font-size: 13px;
+  letter-spacing: 3px;
+  color: #888;
+}
+
+.main-nav a {
+  margin-left: 30px;
+  text-decoration: none;
+  color: var(--text-main);
+  font-size: 15px;
+  letter-spacing: 2px;
+  transition: color 0.2s ease;
+}
+
+.main-nav a:hover {
+  color: var(--phosphor);
+}
+
+/* ============ PORTAL PAGES ============ */
+
+.portal-container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: var(--bg-dark);
+  text-align: center;
+}
+
+.portal-seal {
+  width: 120px;
+  margin-bottom: 40px;
+  opacity: 0.7;
+}
+
+.portal-header {
+  font-family: 'Courier New', monospace;
+  letter-spacing: 4px;
+  color: var(--accent);
+  margin-bottom: 30px;
+  font-size: 18px;
+}
+
+.portal-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.portal-form input {
+  background: #111311;
+  border: 1px solid var(--accent);
+  color: var(--text-main);
+  padding: 12px 16px;
+  width: 260px;
+  letter-spacing: 2px;
+  font-family: 'Courier New', monospace;
+}
+
+.portal-form input::placeholder {
+  color: #666;
+}
+
+.portal-form button {
+  padding: 10px 22px;
+  background: transparent;
+  border: 1px solid var(--accent);
+  color: var(--phosphor);
+  cursor: pointer;
+  letter-spacing: 3px;
+  font-family: 'Courier New', monospace;
+  transition: all 0.2s ease;
+}
+
+.portal-form button:hover {
+  background: var(--accent);
+  color: #111;
+}
+
+.portal-meta {
+  margin-top: 40px;
+  font-size: 12px;
+  color: #555;
+  letter-spacing: 2px;
+}
+
+.error-message {
+  color: var(--phosphor);
+  font-family: 'Courier New', monospace;
+  font-size: 14px;
+  margin-top: 15px;
+}
+
+.success-message {
+  color: var(--accent);
+  font-family: 'Courier New', monospace;
+  font-size: 14px;
+  margin-top: 15px;
+}
+
+/* ============ DASHBOARD ============ */
+
+.dashboard {
+  text-align: center;
+  padding: 120px 20px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.dashboard h2 {
+  font-family: 'Playfair Display', serif;
+  letter-spacing: 3px;
+  margin-bottom: 20px;
+}
+
+#techID {
+  font-family: 'Courier New', monospace;
+  color: var(--accent);
+  font-size: 14px;
+  letter-spacing: 2px;
+  margin-bottom: 40px;
+}
+
+.dashboard-grid {
+  margin-top: 60px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 40px;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.node {
+  border: 1px solid var(--border-subtle);
+  padding: 30px;
+  background: var(--bg-panel);
+  transition: all 0.2s ease;
+}
+
+.node:hover {
+  border-color: var(--accent);
+}
+
+.node a {
+  color: var(--phosphor);
+  text-decoration: none;
+  letter-spacing: 2px;
+}
+
+.logout-btn {
+  margin-top: 60px;
+  padding: 10px 20px;
+  background: transparent;
+  border: 1px solid #555;
+  color: #999;
+  cursor: pointer;
+  letter-spacing: 2px;
+  font-family: 'Courier New', monospace;
+  transition: all 0.2s ease;
+}
+
+.logout-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+/* ============ RESTRICTED NODE ============ */
+
+.restricted {
+  text-align: center;
+  padding: 120px 20px;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.restricted h2 {
+  font-family: 'Playfair Display', serif;
+  letter-spacing: 4px;
+  color: var(--phosphor);
+  margin-bottom: 40px;
+}
+
+#accessMessage {
+  font-family: 'Courier New', monospace;
+  color: var(--accent);
+  font-size: 14px;
+  letter-spacing: 2px;
+  margin-bottom: 30px;
+}
+
+#restrictedContent {
+  border: 1px solid var(--border-subtle);
+  padding: 40px;
+  background: var(--bg-panel);
+  font-family: 'Courier New', monospace;
+  font-size: 13px;
+  line-height: 1.8;
+}
+
+.access-denied {
+  color: var(--phosphor);
+  margin-top: 30px;
+  font-size: 13px;
+}
+
+/* ============ MAIN CONTENT ============ */
+
+main {
+  max-width: 720px;
+  margin: 4rem auto;
+  padding: 0 1.5rem;
+}
+
+h1, h2, h3 {
+  font-family: 'Playfair Display', serif;
+}
+
+.chapter {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 100px 20px;
+  line-height: 1.7;
+  font-size: 19px;
+}
+
+.chapter-meta {
+  font-family: 'Courier New', monospace;
+  font-size: 13px;
+  letter-spacing: 2px;
+  color: var(--accent);
+  margin-bottom: 40px;
+}
+
+.chapter-nav {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 60px;
+  padding-top: 40px;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.chapter-nav a {
+  color: var(--phosphor);
+  text-decoration: none;
+  letter-spacing: 2px;
+}
+
+/* ============ ARCHIVE & SERIES ============ */
+
+.archive-list,
+.series-grid {
+  margin-top: 3rem;
+}
+
+.archive-item,
+.book-card {
+  border: 1px solid var(--border-subtle);
+  background: var(--bg-panel);
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.series-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 2rem;
+}
+
+.book-card a {
+  color: var(--phosphor);
+  text-decoration: none;
+  display: inline-block;
+  margin-top: 1rem;
+}
+
+/* ============ STORE ============ */
+
+.product-grid {
+  margin-top: 3rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 2rem;
+}
+
+.product-card {
+  border: 1px solid var(--border-subtle);
+  background: var(--bg-panel);
+  padding: 1.5rem;
+  text-align: center;
+}
+
+.product-card button {
+  margin-top: 1rem;
+  padding: 0.6rem 1.2rem;
+  background: transparent;
+  border: 1px solid var(--accent);
+  color: var(--accent);
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.product-card button:hover {
+  background: var(--accent);
+  color: #111;
+}
+
+.product-cert {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 20px;
+  opacity: 0.6;
+}
+
+.product-cert img {
+  width: 40px;
+}
+
+/* ============ FOOTER ============ */
+
+footer {
+  border-top: 1px solid var(--border-subtle);
+  margin-top: 4rem;
+  padding: 1.5rem 2rem;
+  font-size: 0.8rem;
+  display: flex;
+  justify-content: space-between;
+  color: var(--accent);
+  text-align: center;
+}
+
+/* ============ UTILITY ============ */
+
+.signal-divider {
+  font-size: 0.8rem;
+  letter-spacing: 3px;
+  color: var(--phosphor);
+  margin-bottom: 1.5rem;
+}
+
+.btn-primary {
+  display: inline-block;
+  margin-top: 1.5rem;
+  padding: 0.7rem 1.4rem;
+  border: 1px solid var(--accent);
+  color: var(--accent);
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.btn-primary:hover {
+  background: var(--accent);
+  color: #111;
+}
+
+.archive-note {
+  font-family: 'Courier New', monospace;
+  font-size: 13px;
+  color: var(--phosphor);
+  margin: 40px 0;
+  opacity: 0.6;
+}
+
+.anomaly {
+  color: var(--phosphor);
+}

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KIDDs Electronics — Restricted Node</title>
+  <link rel="stylesheet" href="/styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Playfair+Display:wght@500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="brand-left">
+    <img src="/assets/brand/kidds-seal.svg" alt="KIDDs Electronics Seal" class="seal">
+    <div>
+      <div class="brand-title">KIDDs ELECTRONICS</div>
+      <div class="brand-sub">Est. 1971</div>
+    </div>
+  </div>
+
+  <nav class="main-nav">
+    <a href="/kidds/dashboard.html">Dashboard</a>
+    <a href="/">Home</a>
+  </nav>
+</header>
+
+<section class="restricted">
+
+  <img src="/assets/brand/kidds-seal.svg" class="portal-seal" alt="KIDDs Seal">
+
+  <h2>RESTRICTED NODE</h2>
+
+  <div id="accessMessage"></div>
+
+  <div id="restrictedContent" style="display:none;">
+    <p>[ARCHIVAL VARIANCE DETECTED]</p>
+    <p>Signal stability compromised. Review internal logs.</p>
+    <p style="margin-top: 30px; color: #888;">—</p>
+    <p style="margin-top: 30px;">Level 2 clearance confirmed.</p>
+    <p>The following materials are reserved for authorized personnel.</p>
+    <p style="margin-top: 40px; color: #666; font-size: 12px;">
+      [ADDITIONAL CONTENT PENDING ARCHIVAL]<br>
+      [NODE STATUS: PARTIALLY INITIALIZED]
+    </p>
+  </div>
+
+  <div id="deniedContent" class="access-denied">
+    Insufficient clearance for this node.
+    <p style="margin-top: 20px; font-size: 12px;">
+      Contact KIDDs Electronics for access elevation.
+    </p>
+  </div>
+
+</section>
+
+<footer>
+  <div>KIDDs Electronics — Est. 1971</div>
+  <div>© Phatti MacHine</div>
+</footer>
+
+<script>
+// Check authentication
+const techID = localStorage.getItem("technicianID");
+const accessLevel = parseInt(localStorage.getItem("accessLevel")) || 1;
+
+if (!techID) {
+  window.location.href = "/kidds/portal.html";
+}
+
+// Show content based on access level
+const restrictedContent = document.getElementById("restrictedContent");
+const deniedContent = document.getElementById("deniedContent");
+const accessMessage = document.getElementById("accessMessage");
+
+if (accessLevel >= 2) {
+  restrictedContent.style.display = "block";
+  deniedContent.style.display = "none";
+  accessMessage.innerHTML = '<p class="success-message">Access Level 2 Confirmed</p>';
+} else {
+  restrictedContent.style.display = "none";
+  deniedContent.style.display = "block";
+  accessMessage.innerHTML = '<p class="error-message">Insufficient Clearance</p>';
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KIDDs Electronics — Technician Dashboard</title>
+  <link rel="stylesheet" href="/styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Playfair+Display:wght@500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="brand-left">
+    <img src="/assets/brand/kidds-seal.svg" alt="KIDDs Electronics Seal" class="seal">
+    <div>
+      <div class="brand-title">KIDDs ELECTRONICS</div>
+      <div class="brand-sub">Est. 1971</div>
+    </div>
+  </div>
+
+  <nav class="main-nav">
+    <a href="/">Home</a>
+    <a href="/read/book-1/">Book One</a>
+    <a href="/series/">Series</a>
+  </nav>
+</header>
+
+<section class="dashboard">
+
+  <img src="/assets/brand/kidds-seal.svg" class="portal-seal" alt="KIDDs Seal">
+
+  <h2>Signal Technician Dashboard</h2>
+
+  <div id="techID"></div>
+
+  <div class="dashboard-grid">
+
+    <div class="node">
+      <a href="/read/book-1/">Archive Access</a>
+    </div>
+
+    <div class="node">
+      <a href="#">Calibration Logs</a>
+    </div>
+
+    <div class="node" id="restrictedNode">
+      <a href="/kidds/restricted.html">Restricted Node</a>
+    </div>
+
+    <div class="node">
+      <a href="/store/">Equipment Shop</a>
+    </div>
+
+  </div>
+
+  <button class="logout-btn" onclick="logout()">Logout</button>
+
+</section>
+
+<footer>
+  <div>KIDDs Electronics — Est. 1971</div>
+  <div>© Phatti MacHine</div>
+</footer>
+
+<script>
+// Check authentication
+const techID = localStorage.getItem("technicianID");
+const accessLevel = parseInt(localStorage.getItem("accessLevel")) || 1;
+
+if (!techID) {
+  window.location.href = "/kidds/portal.html";
+}
+
+// Display technician ID
+document.getElementById("techID").innerText = "TECHNICIAN ID: " + techID.toUpperCase();
+
+// Hide restricted node if access < 2
+if (accessLevel < 2) {
+  document.getElementById("restrictedNode").style.opacity = "0.3";
+  document.getElementById("restrictedNode").style.pointerEvents = "none";
+}
+
+// Logout function
+function logout() {
+  localStorage.removeItem("technicianID");
+  localStorage.removeItem("accessLevel");
+  window.location.href = "/kidds/portal.html";
+}
+</script>
+
+</body>
+</html>
